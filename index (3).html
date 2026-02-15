@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Para Denisse 💖</title>
+    <!-- Importamos fuentes bonitas y románticas -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Pacifico&family=Nunito:wght@400;700&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #ffe4e1;
+            background-image: radial-gradient(#ffcad4 2px, transparent 2px);
+            background-size: 30px 30px;
+            margin: 0;
+            min-height: 100vh;
+            width: 100vw;
+            overflow-x: hidden;
+            overflow-y: auto; /* Permitir scroll si la pantalla es muy chica */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Fredoka One', cursive;
+            touch-action: manipulation;
+        }
+
+        /* --- ESTILOS DEL SOBRE (INTRO) --- */
+        #envelope-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffe4e1;
+            background-image: radial-gradient(#ffcad4 2px, transparent 2px);
+            background-size: 30px 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            transition: opacity 0.8s ease-in-out, visibility 0.8s;
+        }
+
+        .envelope-wrapper {
+            position: relative;
+            cursor: pointer;
+            transform: scale(0.8);
+        }
+
+        .envelope {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background: #fdfdfd;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .envelope::before { /* Solapa Izquierda */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-top: 100px solid transparent;
+            border-bottom: 100px solid transparent;
+            border-left: 150px solid #f2f2f2;
+            z-index: 2;
+        }
+
+        .envelope::after { /* Solapa Derecha */
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-top: 100px solid transparent;
+            border-bottom: 100px solid transparent;
+            border-right: 150px solid #f2f2f2;
+            z-index: 2;
+        }
+
+        .envelope-lid { /* Solapa de Arriba */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 110px solid #ffffff;
+            transform-origin: top;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 4;
+            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1));
+        }
+
+        .envelope-bottom { /* Solapa de Abajo */
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-bottom: 110px solid #ececec;
+            z-index: 3;
+        }
+
+        .envelope-heart {
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #F44336;
+            font-size: 40px;
+            z-index: 5;
+            transition: transform 0.3s;
+        }
+
+        .envelope-wrapper.open .envelope-lid {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+        
+        .envelope-wrapper.open .envelope-heart {
+            opacity: 0;
+        }
+
+        /* --- ESTILOS DEL CONTENIDO PRINCIPAL --- */
+        .main-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            /* Subimos un poco todo para dar espacio abajo */
+            transform: translateY(-20px); 
+            opacity: 0;
+            transition: opacity 1s ease 0.5s;
+            width: 100%;
+            max-width: 400px; /* Limitar ancho en desktop */
+            padding-bottom: 40px; /* Espacio para scroll */
+        }
+
+        .bouquet-container {
+            position: relative;
+            width: 340px; 
+            height: 520px; 
+            display: flex;
+            justify-content: center;
+            align-items: flex-end; /* Alinear al fondo del contenedor */
+            animation: float 4s ease-in-out infinite;
+            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.1));
+            z-index: 10;
+            margin-bottom: -40px; /* Reducir espacio entre ramo y texto */
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Título "Para Denisse" */
+        .title-text {
+            font-family: 'Pacifico', cursive;
+            color: #D81B60; /* Rosa intenso */
+            font-size: 2.2rem;
+            text-align: center;
+            margin-top: 10px;
+            text-shadow: 2px 2px 0px #fff;
+            animation: fadeIn 1s ease 0.5s forwards;
+            opacity: 0;
+        }
+
+        /* Frase poética */
+        .quote-text {
+            font-family: 'Dancing Script', cursive; /* Fuente manuscrita elegante */
+            color: #F06292;
+            font-size: 1.4rem; /* Un poco más grande */
+            line-height: 1.4;
+            text-align: center;
+            margin: 10px 20px 25px 20px;
+            max-width: 90%;
+            animation: fadeIn 1s ease 1s forwards;
+            opacity: 0;
+        }
+
+        /* Botón de Carta */
+        .letter-btn {
+            background: linear-gradient(45deg, #FF80AB, #FF4081);
+            color: white;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding: 12px 30px;
+            border-radius: 50px;
+            border: none;
+            box-shadow: 0 5px 15px rgba(255, 64, 129, 0.4);
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            animation: popUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.5s forwards;
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        .letter-btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 5px rgba(255, 64, 129, 0.4);
+        }
+
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes popUp { to { opacity: 1; transform: scale(1); } }
+
+        svg { overflow: visible; }
+
+    </style>
+</head>
+<body onclick="handleGlobalClick(event)">
+
+    <!-- CAPA 1: EL SOBRE (Intro) -->
+    <div id="envelope-layer">
+        <div class="envelope-wrapper" id="envelope-wrapper" onclick="openEnvelope(event)">
+            <div class="envelope">
+                <div class="envelope-lid"></div>
+                <div class="envelope-heart">❤</div>
+                <div class="envelope-bottom"></div>
+            </div>
+        </div>
+        <p class="mt-8 text-rose-400 font-pacifico text-xl animate-bounce">Toca el sobre...</p>
+    </div>
+
+    <!-- CAPA 2: EL CONTENIDO (Ramo + Texto + Botón) -->
+    <div class="main-wrapper" id="bouquet-layer">
+        
+        <!-- RAMO DE FLORES -->
+        <div class="bouquet-container" id="bouquet">
+            <svg width="340" height="520" viewBox="0 0 340 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+                
+                <defs>
+                    <!-- Tulipán Normal -->
+                    <g id="perfect-tulip">
+                        <rect x="-2" y="0" width="4" height="150" fill="#81C784"/> 
+                        <path d="M-2 120 Q -20 80 -15 30 Q -8 60 -2 90" fill="#66BB6A"/>
+                        <path d="M2 120 Q 20 80 15 30 Q 8 60 2 90" fill="#66BB6A"/>
+                        <g transform="translate(0, 10)">
+                            <path d="M0 0 C -25 0 -25 -45 0 -65 C 25 -45 25 0 0 0" fill="#EF5350"/>
+                            <path d="M0 0 C -28 0 -30 -40 -10 -60" fill="#E53935"/>
+                            <path d="M0 0 C 28 0 30 -40 10 -60" fill="#E53935"/>
+                            <ellipse cx="0" cy="-25" rx="14" ry="32" fill="#EF5350"/>
+                            <path d="M-8 -40 Q -5 -50 0 -45" stroke="rgba(255,255,255,0.4)" stroke-width="3" stroke-linecap="round"/>
+                        </g>
+                    </g>
+                    <!-- Tulipán Rosa -->
+                    <g id="perfect-tulip-pink">
+                        <rect x="-2" y="0" width="4" height="150" fill="#81C784"/>
+                        <path d="M-2 120 Q -20 80 -15 30 Q -8 60 -2 90" fill="#66BB6A"/>
+                        <path d="M2 120 Q 20 80 15 30 Q 8 60 2 90" fill="#66BB6A"/>
+                        <g transform="translate(0, 10)">
+                            <path d="M0 0 C -25 0 -25 -45 0 -65 C 25 -45 25 0 0 0" fill="#F06292"/>
+                            <path d="M0 0 C -28 0 -30 -40 -10 -60" fill="#EC407A"/>
+                            <path d="M0 0 C 28 0 30 -40 10 -60" fill="#EC407A"/>
+                            <ellipse cx="0" cy="-25" rx="14" ry="32" fill="#F06292"/>
+                            <path d="M-8 -40 Q -5 -50 0 -45" stroke="rgba(255,255,255,0.4)" stroke-width="3" stroke-linecap="round"/>
+                        </g>
+                    </g>
+                    <!-- Tulipán Recortado (Sin hoja izquierda) -->
+                    <g id="perfect-tulip-trimmed">
+                        <rect x="-2" y="0" width="4" height="150" fill="#81C784"/> 
+                        <g transform="translate(0, 10)">
+                            <path d="M0 0 C -25 0 -25 -45 0 -65 C 25 -45 25 0 0 0" fill="#EF5350"/>
+                            <path d="M0 0 C -28 0 -30 -40 -10 -60" fill="#E53935"/>
+                            <path d="M0 0 C 28 0 30 -40 10 -60" fill="#E53935"/>
+                            <ellipse cx="0" cy="-25" rx="14" ry="32" fill="#EF5350"/>
+                            <path d="M-8 -40 Q -5 -50 0 -45" stroke="rgba(255,255,255,0.4)" stroke-width="3" stroke-linecap="round"/>
+                        </g>
+                    </g>
+                </defs>
+
+                <!-- 1. PAPEL TRASERO BLANCO CON CURVAS -->
+                <path d="M170 40 Q 120 60 40 280 L 300 280 Q 220 60 170 40 Z" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="2"/>
+                <path d="M170 40 Q 220 60 300 280 L 170 280 Z" fill="#F5F5F5"/>
+
+                <!-- 2. GRUPO DE FLORES (Centrado y tupido) -->
+                <g id="flowers-triangle" transform="translate(0, 30)">
+                    <!-- Fondo -->
+                    <use href="#perfect-tulip-pink" x="170" y="80" transform="scale(0.85)"/>
+                    <use href="#perfect-tulip" x="145" y="100" transform="rotate(-5, 145, 150) scale(0.85)"/>
+                    <use href="#perfect-tulip" x="195" y="100" transform="rotate(5, 195, 150) scale(0.85)"/>
+                    <use href="#perfect-tulip-pink" x="120" y="125" transform="rotate(-10, 120, 175) scale(0.85)"/>
+                    <use href="#perfect-tulip-pink" x="170" y="125" transform="scale(0.85)"/>
+                    <use href="#perfect-tulip-pink" x="220" y="125" transform="rotate(10, 220, 175) scale(0.85)"/>
+                    
+                    <!-- Medio -->
+                    <use href="#perfect-tulip" x="95" y="150" transform="rotate(-15, 95, 200) scale(0.85)"/>
+                    <use href="#perfect-tulip" x="145" y="150" transform="scale(0.85)"/>
+                    <use href="#perfect-tulip" x="195" y="150" transform="scale(0.85)"/>
+                    <use href="#perfect-tulip" x="245" y="150" transform="rotate(15, 245, 200) scale(0.85)"/>
+                    
+                    <!-- Bajo -->
+                    <use href="#perfect-tulip-pink" x="102" y="180" transform="rotate(-10, 102, 230) scale(0.85)"/>
+                    <use href="#perfect-tulip-pink" x="125" y="175" transform="rotate(-5, 125, 225) scale(0.85)"/>
+                    <use href="#perfect-tulip-pink" x="170" y="175" transform="scale(0.85)"/>
+                    <use href="#perfect-tulip-pink" x="215" y="175" transform="rotate(5, 215, 225) scale(0.85)"/>
+                    <use href="#perfect-tulip-pink" x="260" y="180" transform="rotate(20, 260, 230) scale(0.85)"/>
+                    
+                    <!-- Esquinas rellenadas y corregidas -->
+                    <use href="#perfect-tulip-trimmed" x="108" y="212" transform="rotate(-6, 108, 260) scale(0.85)"/> <!-- Izq -->
+                    <use href="#perfect-tulip" x="105" y="200" transform="rotate(-10, 105, 250) scale(0.9)"/>
+                    <use href="#perfect-tulip" x="145" y="200" transform="scale(0.9)"/>
+                    <use href="#perfect-tulip" x="195" y="200" transform="scale(0.9)"/>
+                    <use href="#perfect-tulip" x="235" y="200" transform="rotate(10, 235, 250) scale(0.9)"/>
+                    <use href="#perfect-tulip" x="275" y="210" transform="rotate(25, 275, 260) scale(0.85)"/>
+                    <use href="#perfect-tulip-pink" x="282" y="230" transform="rotate(28, 282, 280) scale(0.85)"/> <!-- Der -->
+
+                    <!-- Frente -->
+                    <use href="#perfect-tulip-pink" x="170" y="215" transform="scale(1)"/>
+                    <use href="#perfect-tulip-pink" x="130" y="210" transform="rotate(-15, 130, 260) scale(0.95)"/>
+                    <use href="#perfect-tulip-pink" x="210" y="210" transform="rotate(15, 210, 260) scale(0.95)"/>
+                </g>
+
+                <!-- 2. PAPEL FRONTAL BLANCO -->
+                <path d="M50 250 L 290 250 L 170 500 Z" fill="#E0E0E0"/>
+                <path d="M50 250 Q 110 270 170 500 L 220 250 Q 135 290 50 250 Z" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="2"/>
+                <path d="M290 250 Q 230 270 170 500 L 120 250 Q 205 290 290 250 Z" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="2"/>
+                <path d="M170 500 L 220 250 L 120 250 Z" fill="#F0F0F0" opacity="0.6"/>
+
+                <!-- 3. LOGO CENTRADO (Tarjeta con "D") -->
+                <g transform="translate(170, 350)"> 
+                     <rect x="-25" y="-30" width="50" height="60" rx="5" fill="white" stroke="#F48FB1" stroke-width="3"/>
+                     <circle cx="0" cy="5" r="18" stroke="#FF80AB" stroke-width="3" fill="none"/>
+                     <text x="0" y="13" font-family="'Nunito', sans-serif" font-weight="bold" font-size="24" fill="#D81B60" text-anchor="middle">D</text>
+                     <path d="M0 -15 L-3 -18 Q-5 -20 -3 -22 Q-1 -24 0 -21 Q1 -24 3 -22 Q5 -20 3 -18 Z" fill="#FF4081" transform="scale(2) translate(0, -3)"/> 
+                </g>
+
+                <!-- 4. LAZO (Abajo) -->
+                <g transform="translate(170, 420)">
+                     <path d="M-25 0 Q 0 10 25 0" fill="none" stroke="#F06292" stroke-width="4"/>
+                     <path d="M0 5 Q -15 35 -25 55" fill="none" stroke="#F06292" stroke-width="4"/>
+                     <path d="M0 5 Q 15 35 25 50" fill="none" stroke="#F06292" stroke-width="4"/>
+                     <circle cx="0" cy="5" r="6" fill="#EC407A"/>
+                     <path d="M0 5 Q -25 -15 -25 5 Q -25 25 0 5" fill="#F48FB1"/>
+                     <path d="M0 5 Q 25 -15 25 5 Q 25 25 0 5" fill="#F48FB1"/>
+                </g>
+
+            </svg>
+        </div>
+
+        <!-- TÍTULO -->
+        <h1 class="title-text">Para Denisse 💕</h1>
+
+        <!-- FRASE MEJORADA -->
+        <p class="quote-text">
+            "Si tuviera una flor por cada vez que pienso en ti, podría caminar en mi jardín para siempre."
+        </p>
+
+        <!-- BOTÓN DE CARTA (Pega tu link aquí abajo en href="") -->
+        <a href="https://drive.google.com/file/d/10ftpKqkFXd8iqkRwrljdbThPMwK6nSXK/view?usp=sharing" target="_blank" class="letter-btn">
+            📜 Ver mi Carta para Ti
+        </a>
+
+    </div>
+
+    <script>
+        let envelopeOpened = false;
+
+        function openEnvelope(e) {
+            e.stopPropagation();
+            if (envelopeOpened) return;
+            envelopeOpened = true;
+
+            const wrapper = document.getElementById('envelope-wrapper');
+            const envelopeLayer = document.getElementById('envelope-layer');
+            const bouquetLayer = document.getElementById('bouquet-layer');
+
+            wrapper.classList.add('open');
+
+            setTimeout(() => {
+                envelopeLayer.style.opacity = '0';
+                setTimeout(() => {
+                    envelopeLayer.style.visibility = 'hidden';
+                    envelopeLayer.style.display = 'none';
+                    bouquetLayer.style.opacity = '1';
+                    throwConfetti({ clientX: window.innerWidth / 2, clientY: window.innerHeight / 2 });
+                }, 800);
+            }, 800);
+        }
+
+        function handleGlobalClick(e) {
+            // Solo lanzar confeti si el clic NO es en el botón
+            if (envelopeOpened && !e.target.closest('.letter-btn') && document.getElementById('envelope-layer').style.opacity === '0') {
+                throwConfetti(e);
+            }
+        }
+
+        function throwConfetti(e) {
+            const shapes = ['🌷', '✨', '💖', '🌸'];
+            const x = e.clientX;
+            const y = e.clientY;
+
+            for(let i=0; i<20; i++) {
+                const el = document.createElement('div');
+                el.innerText = shapes[Math.floor(Math.random() * shapes.length)];
+                el.style.position = 'absolute';
+                el.style.left = x + 'px';
+                el.style.top = y + 'px';
+                el.style.fontSize = Math.random() * 20 + 20 + 'px';
+                el.style.pointerEvents = 'none';
+                el.style.userSelect = 'none';
+                el.style.zIndex = 100;
+                document.body.appendChild(el);
+
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 150 + 50;
+                const tx = Math.cos(angle) * speed;
+                const ty = Math.sin(angle) * speed;
+                const rot = Math.random() * 720;
+
+                el.animate([
+                    { transform: `translate(0,0) rotate(0deg) scale(0)`, opacity: 0 },
+                    { transform: `translate(${tx*0.2}px, ${ty*0.2}px) rotate(${rot*0.5}deg) scale(1.2)`, opacity: 1, offset: 0.2 },
+                    { transform: `translate(${tx}px, ${ty}px) rotate(${rot}deg) scale(0)`, opacity: 0 }
+                ], {
+                    duration: 1200,
+                    easing: 'cubic-bezier(0, .9, .57, 1)'
+                }).onfinish = () => el.remove();
+            }
+
+            const bouquet = document.getElementById('bouquet');
+            bouquet.animate([
+                { transform: 'scale(1)' },
+                { transform: 'scale(1.05)' },
+                { transform: 'scale(1)' }
+            ], { duration: 300 });
+        }
+    </script>
+
+</body>
+</html>
